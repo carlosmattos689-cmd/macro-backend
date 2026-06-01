@@ -187,13 +187,30 @@ async def market():
 @app.get("/dashboard")
 async def dashboard():
 
-    return {
+    api_key = os.getenv("TWELVEDATA_API_KEY")
 
-        "market": {
-            "gold": "3380",
-            "usdjpy": "159.2",
-            "eurusd": "1.16"
-        },
+    symbols = {
+        "gold": "XAU/USD",
+        "usdjpy": "USD/JPY",
+        "eurusd": "EUR/USD"
+    }
+
+    market_data = {}
+
+    for name, symbol in symbols.items():
+
+        url = f"https://api.twelvedata.com/price?symbol={symbol}&apikey={api_key}"
+
+        response = requests.get(url)
+
+        data = response.json()
+
+        market_data[name] = {
+            "price": data.get("price")
+        }
+
+    return {
+        "market": market_data,
 
         "macro": {
             "risk": "RISK OFF",
