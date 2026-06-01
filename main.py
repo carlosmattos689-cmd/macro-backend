@@ -5,9 +5,12 @@ import os
 
 app = FastAPI()
 
-client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY")
-)
+openai_key = os.getenv("OPENAI_API_KEY")
+
+client = None
+
+if openai_key:
+    client = OpenAI(api_key=openai_key)
 
 @app.get("/")
 async def root():
@@ -15,6 +18,11 @@ async def root():
 
 @app.get("/macro")
 async def macro():
+
+    if client is None:
+        return {
+            "error": "OPENAI_API_KEY não configurada"
+        }
 
     try:
 
