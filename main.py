@@ -161,13 +161,13 @@ async def signal():
 async def market():
 
 
-api_key = os.getenv("TWELVEDATA_API_KEY")
+    api_key = os.getenv("TWELVEDATA_API_KEY")
 
-url = f"https://api.twelvedata.com/price?symbol=XAU/USD&apikey={api_key}"
+    url = f"https://api.twelvedata.com/price?symbol=XAU/USD&apikey={api_key}"
 
-response = requests.get(url)
+    response = requests.get(url)
 
-return response.json()
+    return response.json()
 
 
 
