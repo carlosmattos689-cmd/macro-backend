@@ -225,7 +225,14 @@ async def news():
 
     api_key = os.getenv("NEWS_API_KEY")
 
-    url = f"https://newsapi.org/v2/everything?q=Federal Reserve OR inflation OR yields OR gold OR oil OR Nasdaq&language=en&sortBy=publishedAt&pageSize=10&apiKey={api_key}"
+    url = (
+        "https://newsapi.org/v2/everything?"
+        "q=(Federal Reserve OR inflation OR yields OR gold OR oil OR Nasdaq)"
+        "&language=en"
+        "&sortBy=publishedAt"
+        "&pageSize=10"
+        f"&apiKey={api_key}"
+    )
 
     response = requests.get(url)
 
@@ -245,7 +252,6 @@ async def news():
     return {
         "news": articles
     }
-
 
 
     
