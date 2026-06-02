@@ -128,18 +128,7 @@ async def jpy():
         "bias": bias
     }
 
-@app.get("/news")
-async def news():
 
-    headlines = [
-        "Fed mantém postura hawkish",
-        "Treasury yields sobem",
-        "Mercado reduz apostas de corte"
-    ]
-
-    return {
-        "headlines": headlines
-    }
 
 @app.get("/signal")
 async def signal():
