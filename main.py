@@ -217,6 +217,35 @@ async def dashboard():
         ]
     }
 
+import requests
+import os
+
+@app.get("/news")
+async def news():
+
+    api_key = os.getenv("NEWS_API_KEY")
+
+    url = f"https://newsapi.org/v2/everything?q=Federal Reserve OR inflation OR yields OR gold OR oil OR Nasdaq&language=en&sortBy=publishedAt&pageSize=10&apiKey={api_key}"
+
+    response = requests.get(url)
+
+    data = response.json()
+
+    articles = []
+
+    for article in data.get("articles", []):
+
+        articles.append({
+            "title": article.get("title"),
+            "source": article.get("source", {}).get("name"),
+            "published": article.get("publishedAt"),
+            "url": article.get("url")
+        })
+
+    return {
+        "news": articles
+    }
+
 
 
     
