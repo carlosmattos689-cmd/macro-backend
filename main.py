@@ -242,5 +242,45 @@ async def news():
         "news": articles
     }
 
+import requests
+import os
+
+@app.get("/macro-data")
+async def macro_data():
+
+    api_key = os.getenv("FRED_API_KEY")
+
+    series = {
+        "us10y": "DGS10",
+        "us2y": "DGS2",
+        "fed_funds": "FEDFUNDS",
+        "cpi": "CPIAUCSL",
+        "unemployment": "UNRATE"
+    }
+
+    result = {}
+
+    for name, series_id in series.items():
+
+        url = (
+            f"https://api.stlouisfed.org/fred/series/observations"
+            f"?series_id={series_id}"
+            f"&api_key={api_key}"
+            f"&file_type=json"
+            f"&sort_order=desc"
+            f"&limit=1"
+        )
+
+        response = requests.get(url)
+        data = response.json()
+
+        observations = data.get("observations", [])
+
+        if observations:
+            result[name] = observations[-1]["value"]
+        else:
+            result[name] = None
+
+    return result
 
     
